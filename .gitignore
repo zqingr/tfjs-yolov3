@@ -2,6 +2,7 @@
 
 # compiled output
 /tmp
+/dist
 
 # dependencies
 /node_modules
@@ -35,3 +36,5 @@ Thumbs.db
 node.test.js
 
 yarn.lock
+
+webpack.config.prod.js

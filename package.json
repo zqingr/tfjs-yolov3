@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=dev PLATFORM=web webpack-dev-server --progress --host 0.0.0.0 --disableHostCheck=true"
+    "start": "cross-env NODE_ENV=dev PLATFORM=web webpack-dev-server --progress --host 0.0.0.0 --disableHostCheck=true",
+    "build": "cross-env NODE_ENV=pro PLATFORM=web webpack --progress --config ./webpack.config.prod.js --optimize-minimize"
   },
   "author": "",
   "license": "ISC",

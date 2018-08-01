@@ -9,7 +9,8 @@ module.exports = function (env) {
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: '[name].bundle.js'
+      filename: '[name].bundle.js',
+      libraryTarget: "umd"
     },
     resolve: {
       // Add `.ts` and `.tsx` as a resolvable extension.
@@ -63,6 +64,9 @@ module.exports = function (env) {
         ]
       }]
     },
+		externals: {
+			// "@tensorflow/tfjs": "@tensorflow/tfjs"
+		},
     devServer: {
       port: 8000,
       host: 'localhost',

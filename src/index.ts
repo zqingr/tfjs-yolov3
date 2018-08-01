@@ -1,6 +1,6 @@
-import './style.css'
+import yolov3 from '../dist/index.bundle'
 
-import yolov3 from './yolo/yolo-eval'
+import './style.css'
 
 const $img = document.getElementById('img') as HTMLImageElement
 const $img1 = document.getElementById('img1') as HTMLImageElement
@@ -11,7 +11,7 @@ const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
 ctx.drawImage($img, 0, 0, 416, 416)
 
 async function start () {
-  const boxes = await yolov3($img)
+  const boxes = await yolov3({ $img })
 
   const $imgbox = document.getElementById('img-box') as HTMLElement
 
@@ -30,3 +30,7 @@ async function start () {
   console.log(boxes)
 }
 start()
+
+// import yolov3 from './yolo/yolo-eval'
+
+// export default yolov3
