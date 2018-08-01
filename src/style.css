@@ -1,0 +1,16 @@
+#img-box {
+  position: relative;
+}
+#img-box .rect {
+  position: absolute;
+  border: 2px solid #f00;
+}
+#img-box .rect .className {
+  position: absolute;
+  top: 0;
+  background: #f00;
+  color: #fff;
+
+}
+#test-canvas {
+}

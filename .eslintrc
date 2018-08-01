@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "standard"
+  ],
+  "plugins": [
+    "html",
+    "import",
+    "babel"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jquery": true,
+    "commonjs": true,
+    "phantomjs": true,
+    "mocha": true
+  },
+  "rules": {
+    "no-confusing-arrow": "off",
+    "babel/new-cap": 1,
+    "no-undef": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "import/no-webpack-loader-syntax": "off",
+    "keyword-spacing": "off",
+    "no-unused-vars": [ 0, { "varsIgnorePattern": "Component$", "args": "none" } ],
+    "no-new": 0,
+    "indent": [
+        "error",
+        2,
+        { "ignoredNodes": [ "Program" ] }
+    ]
+  },
+  "parser": "typescript-eslint-parser",
+  "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": {
+          "jsx": true
+      }
+  }
+}
+

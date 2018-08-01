@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "target": "es5",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,    
+    "isolatedModules": false,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib" : ["es2015", "es2017", "dom"],
+    "baseUrl": "types",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "paths": {
+      "jquery-ui": [
+        "node_modules/@types/jqueryui/index"
+      ]
+    }
+  },
+  "exclude": [
+      "node_modules"
+  ]
+}

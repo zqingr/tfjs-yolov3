@@ -1,0 +1,44 @@
+{
+  "name": "random-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=dev PLATFORM=web webpack-dev-server --progress --host 0.0.0.0 --disableHostCheck=true"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/d3": "^5.0.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^5.0.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-html": "^4.0.5",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "file-loader": "^1.1.11",
+    "ts-loader": "^4.1.0",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.0.1",
+    "typescript-eslint-parser": "^17.0.1",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.3.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "@antv/data-set": "^0.8.9",
+    "@antv/g2": "^3.1.2",
+    "@tensorflow/tfjs": "0.12.4",
+    "@types/echarts": "^0.0.13",
+    "css-loader": "^1.0.0",
+    "echarts": "^4.1.0",
+    "node-fetch": "^2.1.2",
+    "style-loader": "^0.21.0"
+  }
+}
