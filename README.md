@@ -21,7 +21,7 @@ import yolov3 from 'tfjs-yolov3'
 
 async function start () {
   const $img = document.getElementById('img')
-  const boxes = await yolov3({ $img })
+  const boxes = await yolov3({ $img }) // Note that the first time you need to download pre-training date about 200M,You can check the progress in the console.
   draw(boxes) // Some draw function
 }
 start()
