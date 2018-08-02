@@ -27,14 +27,15 @@ async function start () {
 start()
 ```
 
+## DEMO
 
-
+[Check out the Live Demo](https://zqingr.github.io/tfjs-yolov3-demo/)  
+  
 ![demo](./docs/img/demo1.jpg)
 
+
+
+
 ## API Docs
-
-TODO
-
-## DEMO
 
 TODO
