@@ -163,11 +163,17 @@ $canvas.width = 416
 $canvas.height = 416
 const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
 
+export async function preload (modelUrl?: string): Promise<tf.Model> {
+  model = model || await tf.loadModel(modelUrl || 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json')
+
+  return model
+}
+
 export default async function yolov3 (
   { $img, modelUrl } :
   { $img: HTMLImageElement, modelUrl?: string }
 ) {
-  model = model || await tf.loadModel(modelUrl || 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json')
+  model = await preload()
 
   ctx.drawImage($img, 0, 0, 416, 416)
 
