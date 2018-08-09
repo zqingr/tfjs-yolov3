@@ -39,15 +39,6 @@ async function start () {
 start()
 ```
 
-## DEMO
-
-[点击查看在线DEMO](https://zqingr.github.io/tfjs-yolov3-demo/)  
-  
-![demo](./docs/img/demo1.jpg)
-
-
-
-
 ## API 文档
 
 yolov3和yolov3Tiny函数接受一个options对象，并返回一个函数
@@ -87,5 +78,11 @@ interface Box {
 ```
 
 
+
+## DEMO
+
+[点击查看在线DEMO](https://zqingr.github.io/tfjs-yolov3-demo/)  
+  
+![demo](./docs/img/demo1.jpg)
 
 
