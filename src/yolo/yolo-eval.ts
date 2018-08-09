@@ -165,14 +165,14 @@ const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
 
 export async function yolov3Tiny (
   { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3-tiny/model.json', anchors = ANCHORS_TINY } :
-  { modelUrl?: string, anchors?: number[] }
+  { modelUrl?: string, anchors?: number[] } = {}
 ) {
   const yoloTinyData = await yolo({ modelUrl, anchors })
   return yoloTinyData
 }
 export async function yolov3 (
   { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json', anchors = ANCHORS } :
-  { modelUrl?: string, anchors?: number[] }
+  { modelUrl?: string, anchors?: number[] } = {}
 ) {
   const yoloData = await yolo({ modelUrl, anchors })
   return yoloData
