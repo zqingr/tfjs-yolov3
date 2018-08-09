@@ -1,5 +1,5 @@
 import * as tf from '@tensorflow/tfjs'
-import { COCO_CLASSESS, ANCHORS } from './config'
+import { COCO_CLASSESS, ANCHORS, ANCHORS_TINY } from './config'
 
 const grenerateArr = (num: number) => Array(num).fill(0).map((v, i) => i)
 
@@ -163,34 +163,44 @@ $canvas.width = 416
 $canvas.height = 416
 const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
 
-export async function preload (modelUrl?: string): Promise<tf.Model> {
-  model = model || await tf.loadModel(modelUrl || 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json')
-
-  return model
+export async function yolov3Tiny (
+  { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3-tiny/model.json', anchors = ANCHORS_TINY } :
+  { modelUrl?: string, anchors?: number[] }
+) {
+  const yoloTinyData = await yolo({ modelUrl, anchors })
+  return yoloTinyData
+}
+export async function yolov3 (
+  { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json', anchors = ANCHORS } :
+  { modelUrl?: string, anchors?: number[] }
+) {
+  const yoloData = await yolo({ modelUrl, anchors })
+  return yoloData
 }
 
-export default async function yolov3 (
-  { $img, modelUrl } :
-  { $img: HTMLImageElement, modelUrl?: string }
+async function yolo (
+  { modelUrl, anchors } :
+  { modelUrl: string, anchors: number[] }
 ) {
-  model = await preload()
+  const model = await tf.loadModel(modelUrl)
 
-  ctx.drawImage($img, 0, 0, 416, 416)
+  return async ($img: HTMLImageElement) => {
+    ctx.drawImage($img, 0, 0, 416, 416)
 
-  const sample = tf.stack([
-    // tf.div(tf.cast(tf.fromPixels(document.getElementById('test-canvas') as HTMLCanvasElement), 'float32'), 255)
-    tf.div(tf.cast(tf.fromPixels($canvas), 'float32'), 255)
-  ])
-  let output = await model.predict(sample) as tf.Tensor[]
-  output = output.map(feats => feats.reshape(feats.shape.slice(1)))
+    const sample = tf.stack([
+      // tf.div(tf.cast(tf.fromPixels(document.getElementById('test-canvas') as HTMLCanvasElement), 'float32'), 255)
+      tf.div(tf.cast(tf.fromPixels($canvas), 'float32'), 255)
+    ])
+    let output = await model.predict(sample) as tf.Tensor[]
+    output = output.map(feats => feats.reshape(feats.shape.slice(1)))
 
-  const boxes = await yoloEval(
-    output,
-    tf.tensor1d(ANCHORS).reshape([-1, 2]),
-    COCO_CLASSESS.length,
-    [$img.clientHeight, $img.clientWidth]
-    // [416, 416]
-  )
-
-  return boxes
+    const boxes = await yoloEval(
+      output,
+      tf.tensor1d(anchors).reshape([-1, 2]),
+      COCO_CLASSESS.length,
+      [$img.clientHeight, $img.clientWidth]
+      // [416, 416]
+    )
+    return boxes
+  }
 }

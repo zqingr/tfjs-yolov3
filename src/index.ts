@@ -1,17 +1,22 @@
-import yolov3 from '../dist/index.bundle'
+// import { yolov3Tiny } from './yolo/yolo-eval'
+import { yolov3Tiny } from '../dist/index.bundle'
 
 import './style.css'
+import * as tf from '@tensorflow/tfjs'
+
+// async function load () {
+//   const model = await tf.loadModel('/model/yolov3-tiny/model.json')
+//   // const model = await tf.loadModel('https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3-tiny/model.json')
+
+//   model.summary()
+// }
+// load()
 
 const $img = document.getElementById('img') as HTMLImageElement
-const $img1 = document.getElementById('img1') as HTMLImageElement
-const $canvas = document.getElementById('test-canvas') as HTMLCanvasElement
-
-const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
-
-ctx.drawImage($img, 0, 0, 416, 416)
 
 async function start () {
-  const boxes = await yolov3({ $img })
+  const yolo = await yolov3Tiny({ modelUrl: '/model/yolov3-tiny/model.json' })
+  const boxes = await yolo($img)
 
   const $imgbox = document.getElementById('img-box') as HTMLElement
 
