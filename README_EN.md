@@ -36,7 +36,7 @@ start()
 ```
 
 
-## API 文档
+## API DOC
 
 The yolov3 and yolov3Tiny functions accept an options object and return a function
 
