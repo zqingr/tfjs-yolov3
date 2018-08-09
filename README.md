@@ -29,7 +29,7 @@ async function start () {
   // const yolo = await yolov3() // pre-load model (245M)
 
   const $img = document.getElementById('img')
-  const boxes = await yolo({ $img }) 
+  const boxes = await yolo($img) 
   draw(boxes) // Some draw function
 }
 start()
