@@ -157,7 +157,6 @@ async function yoloEval (
   })
 }
 
-let model: tf.Model
 const $canvas = document.createElement('canvas')
 $canvas.width = 416
 $canvas.height = 416
@@ -182,14 +181,14 @@ async function yolo (
   { modelUrl, anchors } :
   { modelUrl: string, anchors: number[] }
 ) {
-  const model = await tf.loadModel(modelUrl)
+  const model = await tf.loadLayersModel(modelUrl)
 
   return async ($img: HTMLImageElement) => {
     ctx.drawImage($img, 0, 0, 416, 416)
 
     const sample = tf.stack([
       // tf.div(tf.cast(tf.fromPixels(document.getElementById('test-canvas') as HTMLCanvasElement), 'float32'), 255)
-      tf.div(tf.cast(tf.fromPixels($canvas), 'float32'), 255)
+      tf.div(tf.cast(tf.browser.fromPixels($canvas), 'float32'), 255)
     ])
     let output = await model.predict(sample) as tf.Tensor[]
     output = output.map(feats => feats.reshape(feats.shape.slice(1)))

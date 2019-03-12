@@ -19,7 +19,7 @@ module.exports = function (env) {
     module: {
       rules: [
       {
-        test: /\.(ts)$/,
+        test: /\.ts$/,
         enforce: "pre",
         exclude: /node_modules/,
         loader: "eslint-loader",
@@ -47,7 +47,7 @@ module.exports = function (env) {
       {
         test: /\.html$/,
         loader: 'raw-loader',
-        exclude: ['./src/index.html']
+        exclude: path.join(__dirname, './src/index.html')
       },
       {
         test: /\.(jpg|jpeg|gif|png)$/,
@@ -65,7 +65,7 @@ module.exports = function (env) {
       }]
     },
 		externals: {
-			// "@tensorflow/tfjs": "@tensorflow/tfjs"
+			"tf": "@tensorflow/tfjs"
 		},
     devServer: {
       port: 8000,
