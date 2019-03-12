@@ -54,7 +54,7 @@ export declare function yolov3Tiny (
 
 | Parameters  | Description  |
 | ------------ | ------------ |
-|  modelUrl | Optional, pre-train the model's url, you can download the model to the local, speed up the loading of the pre-training model  |
+|  modelUrl | Optional, pre-train the model's url, you can [download](https://github.com/zqingr/tfjs-yolov3/releases/tag/v1.0) the model to the local, speed up the loading of the pre-training model  |
 |  anchors  | Optional, custom anchors, format reference[config](https://github.com/zqingr/tfjs-yolov3/blob/master/src/yolo/config.js) |
 
 After the above two functions are called, the pre-training model will be loaded, and a function will be returned. This function can be used to identify the image and return the identified box list. The parameters are as follows:
