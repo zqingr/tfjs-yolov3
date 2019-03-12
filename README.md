@@ -57,7 +57,7 @@ export declare function yolov3Tiny (
 
 | 参数  | 说明  |
 | ------------ | ------------ |
-|  modelUrl | 可选，预训练model的url，可把model下载到本地，加快预训练model的加载速度  |
+|  modelUrl | 可选，预训练model的url，可把model下载到本地，加快预训练model的加载速度，[点我下载](https://github.com/zqingr/tfjs-yolov3/releases/tag/v1.0)  |
 |  anchors  | 可选，可自定义anchores，格式参考[config](https://github.com/zqingr/tfjs-yolov3/blob/master/src/yolo/config.js) |
 
 这两个函数调用后会加载预训练model，并返回一个函数，可用这个函数去识别图片，并返回识别后的box列表，参数如下：
