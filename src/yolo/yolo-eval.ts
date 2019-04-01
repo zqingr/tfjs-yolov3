@@ -1,7 +1,10 @@
 import * as tf from '@tensorflow/tfjs'
 import { COCO_CLASSESS, ANCHORS, ANCHORS_TINY } from './config'
 
-const grenerateArr = (num: number) => Array(num).fill(0).map((v, i) => i)
+const grenerateArr = (num: number) =>
+  Array(num)
+    .fill(0)
+    .map((v, i) => i)
 
 function yoloHead (
   feats: tf.Tensor,
@@ -16,19 +19,33 @@ function yoloHead (
     const anchorsTensor = anchors.reshape([1, numAnchors, 2])
 
     const gridShape = feats.shape.slice(0, 2) // height, width
-    const gridY = tf.tile(tf.reshape(grenerateArr(gridShape[0]), [-1, 1, 1, 1]), [1, gridShape[1], 1, 1])
-    const gridX = tf.tile(tf.reshape(grenerateArr(gridShape[1]), [1, -1, 1, 1]), [gridShape[0], 1, 1, 1])
+    const gridY = tf.tile(
+      tf.reshape(grenerateArr(gridShape[0]), [-1, 1, 1, 1]),
+      [1, gridShape[1], 1, 1]
+    )
+    const gridX = tf.tile(
+      tf.reshape(grenerateArr(gridShape[1]), [1, -1, 1, 1]),
+      [gridShape[0], 1, 1, 1]
+    )
 
     let grid = gridX.concat(gridY, 3)
 
     grid = tf.cast(grid, feats.dtype)
-    const newfeats = tf.reshape(feats, [gridShape[0], gridShape[1], numAnchors, numClasses + 5])
+    const newfeats = tf.reshape(feats, [
+      gridShape[0],
+      gridShape[1],
+      numAnchors,
+      numClasses + 5
+    ])
 
     // Adjust preditions to each spatial grid point and anchor size.
     const [xy, wh, con, probs] = tf.split(newfeats, [2, 2, 1, 80], 3)
 
     const boxXY = tf.div(tf.add(tf.sigmoid(xy), grid), gridShape.reverse())
-    const boxWH = tf.div(tf.mul(tf.exp(wh), anchorsTensor), inputShape.reverse())
+    const boxWH = tf.div(
+      tf.mul(tf.exp(wh), anchorsTensor),
+      inputShape.reverse()
+    )
 
     const boxConfidence = tf.sigmoid(con)
     const boxClassProbs = tf.sigmoid(probs)
@@ -57,10 +74,10 @@ function yoloCorrectBoxes (
     const boxMins = tf.sub(boxYX, tf.div(boxHW, 2))
     const boxMaxes = tf.add(boxYX, tf.div(boxHW, 2))
 
-    const boxes = tf.concat([
-      ...tf.split(boxMins, [1, 1], 3),
-      ...tf.split(boxMaxes, [1, 1], 3)
-    ], 3)
+    const boxes = tf.concat(
+      [...tf.split(boxMins, [1, 1], 3), ...tf.split(boxMaxes, [1, 1], 3)],
+      3
+    )
 
     return boxes
   })
@@ -76,7 +93,12 @@ function yoloBoxesAndScores (
   inputShape: number[],
   imageShape: number[]
 ) {
-  const [boxXY, boxWH, boxConfidence, boxClassProbs] = yoloHead(feats, anchors, numClasses, inputShape)
+  const [boxXY, boxWH, boxConfidence, boxClassProbs] = yoloHead(
+    feats,
+    anchors,
+    numClasses,
+    inputShape
+  )
   let boxes = yoloCorrectBoxes(boxXY, boxWH, inputShape, imageShape)
   boxes = boxes.reshape([-1, 4])
 
@@ -99,7 +121,8 @@ async function yoloEval (
   iouThreshold: number = 0.45
 ) {
   const numLayers = output.length
-  const anchorMask = numLayers === 3 ? [[6, 7, 8], [3, 4, 5], [0, 1, 2]] : [[3, 4, 5], [1, 2, 3]] // default setting
+  const anchorMask =
+    numLayers === 3 ? [[6, 7, 8], [3, 4, 5], [0, 1, 2]] : [[3, 4, 5], [1, 2, 3]] // default setting
 
   const inputShape = output[0].shape.slice(0, 2).map(num => num * 32)
   const boxesArr = []
@@ -111,7 +134,8 @@ async function yoloEval (
       anchors.gather(tf.cast(tf.tensor1d(anchorMask[index]), 'int32')),
       numberClasses,
       inputShape,
-      imageShape)
+      imageShape
+    )
     boxesArr.push(_boxes)
     boxScoresArr.push(_boxScores)
   }
@@ -126,14 +150,28 @@ async function yoloEval (
   const splitBoxScores = tf.split(boxScores, Array(numberClasses).fill(1), 1)
 
   for (let index = 0; index < numberClasses; index++) {
-    const nmsIndex = await tf.image.nonMaxSuppressionAsync(boxes as tf.Tensor<tf.Rank.R2>, splitBoxScores[index].reshape([-1]), maxBoxs, iouThreshold, scoreThreshold)
+    const nmsIndex = await tf.image.nonMaxSuppressionAsync(
+      boxes as tf.Tensor<tf.Rank.R2>,
+      splitBoxScores[index].reshape([-1]),
+      maxBoxs,
+      iouThreshold,
+      scoreThreshold
+    )
     if (!nmsIndex.size) continue
 
     const classBoxes = tf.gather(boxes, nmsIndex)
     const classBoxScores = tf.gather(splitBoxScores[index], nmsIndex)
 
-    boxes_ = boxes_.concat(tf.split(classBoxes, Array(nmsIndex.size).fill(1)).map(d => d.dataSync() as Float32Array))
-    scores_ = scores_.concat(tf.split(classBoxScores, Array(nmsIndex.size).fill(1)).map(d => d.dataSync() as Float32Array))
+    boxes_ = boxes_.concat(
+      tf
+        .split(classBoxes, Array(nmsIndex.size).fill(1))
+        .map(d => d.dataSync() as Float32Array)
+    )
+    scores_ = scores_.concat(
+      tf
+        .split(classBoxScores, Array(nmsIndex.size).fill(1))
+        .map(d => d.dataSync() as Float32Array)
+    )
     classes_ = classes_.concat(Array(nmsIndex.size).fill(index))
 
     classBoxScores.dispose()
@@ -162,26 +200,35 @@ $canvas.width = 416
 $canvas.height = 416
 const ctx = $canvas.getContext('2d') as CanvasRenderingContext2D
 
-export async function yolov3Tiny (
-  { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3-tiny/model.json', anchors = ANCHORS_TINY } :
-  { modelUrl?: string, anchors?: number[] } = {}
-) {
+export async function yolov3Tiny ({
+  modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3-tiny/model.json',
+  anchors = ANCHORS_TINY
+}: { modelUrl?: string; anchors?: number[] } = {}) {
   const yoloTinyData = await yolo({ modelUrl, anchors })
   return yoloTinyData
 }
-export async function yolov3 (
-  { modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json', anchors = ANCHORS } :
-  { modelUrl?: string, anchors?: number[] } = {}
-) {
+export async function yolov3 ({
+  modelUrl = 'https://zqingr.github.io/tfjs-yolov3-demo/model/yolov3/model.json',
+  anchors = ANCHORS
+}: { modelUrl?: string; anchors?: number[] } = {}) {
   const yoloData = await yolo({ modelUrl, anchors })
   return yoloData
 }
 
-async function yolo (
-  { modelUrl, anchors } :
-  { modelUrl: string, anchors: number[] }
-) {
-  const model = await tf.loadLayersModel(modelUrl)
+async function yolo ({
+  modelUrl,
+  anchors
+}: {
+  modelUrl: string
+  anchors: number[]
+}) {
+  const localModels = await tf.io.listModels()
+  if (localModels['indexeddb://yolov3-1']) {
+    const model = await tf.loadLayersModel('indexeddb://yolov3-1')
+  } else {
+    const model = await tf.loadLayersModel(modelUrl)
+    await model.save('indexeddb://yolov3-1')
+  }
 
   return async ($img: HTMLImageElement) => {
     ctx.drawImage($img, 0, 0, 416, 416)
@@ -190,7 +237,7 @@ async function yolo (
       // tf.div(tf.cast(tf.fromPixels(document.getElementById('test-canvas') as HTMLCanvasElement), 'float32'), 255)
       tf.div(tf.cast(tf.browser.fromPixels($canvas), 'float32'), 255)
     ])
-    let output = await model.predict(sample) as tf.Tensor[]
+    let output = (await model.predict(sample)) as tf.Tensor[]
     output = output.map(feats => feats.reshape(feats.shape.slice(1)))
 
     const boxes = await yoloEval(
