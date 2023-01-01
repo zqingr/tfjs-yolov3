@@ -15,21 +15,21 @@
     "cross-env": "^5.2.0",
     "eslint": "^5.15.1",
     "eslint-config-standard": "^12.0.0",
-    "eslint-loader": "^2.1.2",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "file-loader": "^3.0.1",
-    "ts-loader": "^5.3.3",
+    "file-loader": "^6.2.0",
+    "ts-loader": "^9.4.2",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.3333",
     "typescript-eslint-parser": "^22.0.0",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
@@ -37,9 +37,9 @@
     "@antv/g2": "^3.4.10",
     "@tensorflow/tfjs": "1.0.0",
     "@types/echarts": "^4.1.5",
-    "css-loader": "^2.1.1",
+    "css-loader": "^6.7.3",
     "echarts": "^4.1.0",
     "node-fetch": "^2.3.0",
-    "style-loader": "^0.23.1"
+    "style-loader": "^3.3.1"
   }
 }
